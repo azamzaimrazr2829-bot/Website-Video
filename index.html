@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Music Search</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <i class="fas fa-play logo-icon"></i>
+                </div>
+                <h1 class="logo-text">VideoKu</h1>
+                <div class="logo-subtext">MUSIC PLAYER</div>
+            </div>
+            <p class="tagline">Discover and play your favorite music from YouTube</p>
+        </header>
+
+        <main>
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search for songs, artists, or albums...">
+                </div>
+                <p class="search-hint">Start typing to search for music. Results will appear automatically.</p>
+            </div>
+
+            <div id="loading">
+                <div class="loader"><div></div><div></div></div>
+                <p style="margin-top: 20px; color: #aaa;">Searching for music...</p>
+            </div>
+
+            <div id="results">
+                <div class="empty-state">
+                    <i class="fas fa-music empty-icon"></i>
+                    <p class="empty-text">Search for music to get started</p>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-database stat-icon"></i>
+                    <span>Powered by YouTube API</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-headphones-alt stat-icon"></i>
+                    <span>Unlimited Music Library</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-bolt stat-icon"></i>
+                    <span>Fast & Responsive</span>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>VideoKu Music Player © 2023 | Powered by YouTube Data API</p>
+        </footer>
+    </div>
+
+    <div class="player-container">
+        <div class="player-content">
+            <div class="player-info">
+                <div class="now-playing">NOW PLAYING</div>
+                <p class="player-title">No song selected</p>
+                <p class="player-channel">Select a song from the search results</p>
+            </div>
+            <div class="player-frame-container">
+                <div id="player"></div>
+                <!-- Progress bar container -->
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper" id="progressBarWrapper">
+                        <div class="buffered-bar" id="bufferedBar"></div>
+                        <div class="progress-bar" id="progressBar"></div>
+                        <div class="progress-hover-time" id="hoverTime"></div>
+                    </div>
+                    <div class="progress-time">
+                        <span id="currentTime">0:00</span>
+                        <span class="time-separator">/</span>
+                        <span id="durationTime">0:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="player-btn" onclick="togglePlay()" title="Play/Pause">
+                    <i class="fas fa-pause" id="playPauseIcon"></i>
+                </button>
+                <div class="volume-container">
+                    <button class="volume-btn" onclick="toggleMute()" title="Mute/Unmute">
+                        <i class="fas fa-volume-up" id="volumeIcon"></i>
+                    </button>
+                    <div class="volume-slider" id="volumeSlider">
+                        <div class="volume-level" id="volumeLevel"></div>
+                    </div>
+                </div>
+                <button class="player-btn" onclick="closePlayer()" title="Close Player">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+</html>
