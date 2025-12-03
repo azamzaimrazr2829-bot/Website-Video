@@ -7,7 +7,6 @@ let updateInterval;
 let isMuted = false;
 let currentVolume = 70;
 
-// YouTube IFrame API callback
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '220',
@@ -62,15 +61,12 @@ function startProgressUpdate() {
             const currentTime = player.getCurrentTime();
             const duration = player.getDuration();
             
-            // Update progress bar
             const progressBar = document.getElementById('progressBar');
             const progress = (currentTime / duration) * 100;
             progressBar.style.width = `${progress}%`;
             
-            // Update buffered progress
             updateBufferedProgress();
             
-            // Update time display
             document.getElementById('currentTime').textContent = formatTime(currentTime);
             document.getElementById('durationTime').textContent = formatTime(duration);
         }
@@ -187,7 +183,6 @@ function playVideo(videoId, title, channel) {
     if (player && typeof player.loadVideoById === 'function') {
         player.loadVideoById(videoId);
     } else {
-        // Fallback jika player belum siap
         if (!player) {
             player = new YT.Player('player', {
                 height: '220',
@@ -242,7 +237,6 @@ function closePlayer() {
         player.stopVideo();
     }
     
-    // Reset progress bar
     document.getElementById('progressBar').style.width = '0%';
     document.getElementById('bufferedBar').style.width = '0%';
     document.getElementById('currentTime').textContent = '0:00';
@@ -253,14 +247,12 @@ function closePlayer() {
     document.querySelector(".player-channel").textContent = "Select a song from the search results";
     currentVideoId = null;
     
-    // Reset play/pause icon
     document.getElementById("playPauseIcon").className = "fas fa-pause";
     isPlaying = false;
     
     stopProgressUpdate();
 }
 
-// Progress bar click handler untuk seek
 function setupProgressBar() {
     const progressBarWrapper = document.getElementById('progressBarWrapper');
     const hoverTime = document.getElementById('hoverTime');
@@ -276,11 +268,9 @@ function setupProgressBar() {
             
             player.seekTo(seekTo, true);
             
-            // Update progress bar immediately
             const progressBar = document.getElementById('progressBar');
             progressBar.style.width = `${percentage * 100}%`;
             
-            // Update current time
             document.getElementById('currentTime').textContent = formatTime(seekTo);
         }
     });
@@ -294,7 +284,6 @@ function setupProgressBar() {
             const duration = player.getDuration();
             const hoverSeconds = duration * percentage;
             
-            // Update hover time display
             hoverTime.textContent = formatTime(hoverSeconds);
             hoverTime.style.left = `${percentage * 100}%`;
         }
@@ -309,7 +298,6 @@ function setupProgressBar() {
     });
 }
 
-// Volume control functions
 function setupVolumeControl() {
     const volumeSlider = document.getElementById('volumeSlider');
     const volumeLevel = document.getElementById('volumeLevel');
@@ -336,7 +324,6 @@ function setVolume(volume) {
     document.getElementById('volumeLevel').style.width = `${volume}%`;
     updateVolumeIcon();
     
-    // Show volume change feedback
     const volumeIcon = document.getElementById('volumeIcon');
     volumeIcon.style.transform = 'scale(1.2)';
     setTimeout(() => {
@@ -393,61 +380,50 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     setupProgressBar();
     setupVolumeControl();
     
     document.getElementById("searchInput").addEventListener('input', searchMusic);
     
-    // Auto search on load
     setTimeout(() => {
         document.getElementById("searchInput").value = "pyphone";
         searchMusic();
     }, 800);
 });
 
-// Keyboard shortcuts
 document.addEventListener('keydown', function(e) {
-    // Space bar to play/pause
     if (e.code === 'Space' && document.querySelector('.player-container').style.display === 'block') {
         e.preventDefault();
         togglePlay();
     }
     
-    // Left arrow to rewind 5 seconds
     if (e.code === 'ArrowLeft' && player) {
         e.preventDefault();
         const currentTime = player.getCurrentTime();
         player.seekTo(currentTime - 5, true);
     }
     
-    // Right arrow to forward 5 seconds
     if (e.code === 'ArrowRight' && player) {
         e.preventDefault();
         const currentTime = player.getCurrentTime();
         player.seekTo(currentTime + 5, true);
     }
     
-    // M to mute/unmute
     if (e.code === 'KeyM') {
         e.preventDefault();
         toggleMute();
     }
     
-    // Up arrow to increase volume
     if (e.code === 'ArrowUp' && player) {
         e.preventDefault();
         const newVolume = Math.min(100, currentVolume + 10);
         setVolume(newVolume);
     }
-    
-    // Down arrow to decrease volume
+
     if (e.code === 'ArrowDown' && player) {
         e.preventDefault();
         const newVolume = Math.max(0, currentVolume - 10);
         setVolume(newVolume);
     }
 });
-
-// Fallback jika YouTube
